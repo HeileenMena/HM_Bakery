@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Usuarios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="navbar"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <div class="container">
+        <div class="titulo">Modificar usuarios</div>
+
+        <table id="tablaUsuarios">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>Rol</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table><br>
+
+        <div id="editarUsuarioContainer" style="display: none;">
+            <h3>Editar Usuario</h3>
+            <form id="formEditarUsuario">
+                <input type="hidden" id="usuarioId" name="id">
+                <label>Nombre: <input type="text" name="nombre" required></label><br><br>
+                <label>Usuario: <input type="text" name="usuario" required></label><br><br>
+                <label>
+                    Rol:
+                    <select name="rol" required>
+                        <option value="admin">Admin</option>
+                        <option value="vendedor">Vendedor</option>
+                    </select>
+                </label><br><br>
+                <label>Activo: <input type="checkbox" name="activo" id="activo"></label><br><br>
+                <button type="submit">Guardar Cambios</button>
+                <button type="button" onclick="document.getElementById('editarUsuarioContainer').style.display = 'none'">Cancelar</button>
+            </form>
+        </div>
+
+
+        <div id="mensaje"></div>
+    </div>
+
+    <script src="modificar_usuarios.js"></script>
+</body>
+</html>

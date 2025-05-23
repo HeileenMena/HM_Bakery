@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Punto de Venta - La Inventada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Navbar principal -->
+    <div id="navbar"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <!-- Botones principales -->
+    <div class="container">
+        <div class="titulo">Configuración</div>
+        <div class="botones-op">
+            <!-- Botón para la creación de usuarios -->
+            <a href="nuevos_usuarios.html" class="opcion">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Usuarios<br><small>Crear Nuevo</small></span>
+            </a>
+            <!-- Botón para Modificar Usuario -->
+            <a href="modificar_usuario.html" class="opcion">
+                <i class="fa-solid fa-user-edit"></i>
+                <span>Modificar Usuario<br><small>Actualizar datos</small></span>
+            </a>
+        </div>
+    </div>
+
+</body>
+<script>
+    const rol = localStorage.getItem("rol");
+    if (rol !== "admin") {
+        alert("Acceso no autorizado.");
+        window.location.href = "operaciones.html";
+    }
+</script>
+</html>

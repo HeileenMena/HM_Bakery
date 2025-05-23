@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Punto de Venta - La Inventada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button id="btnAgregar">Agregar (F3)</button>
+        <button id="btnEditar">Editar (F4)</button>
+        <button id="btnEliminar">Eliminar (F5)</button>
+    </div>
+
+
+    <!-- Contenido principal -->
+    <div class="main-content">
+
+        <!-- Panel izquierdo con tabla y búsqueda -->
+        <div class="left-panel">
+            <div class="search-bar">
+                <input type="text" id="busqueda-articulo" placeholder="🔍 Buscar artículo...">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-articulos">
+                    <!-- Los artículos se llenan con JS -->
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Sidebar derecho con imagen e info del artículo -->
+        <div class="right-panel">
+            <img id="foto-articulo" src="img/default.jpg" alt="Foto del artículo">
+            <div class="info">
+                <h3 id="desc-articulo">Descripción del artículo</h3>
+                <p id="precio-articulo">$0.00</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar artículo -->
+    <div id="modalAgregarArticulo" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalAgregar()">&times;</span>
+            <h2>Agregar Artículos</h2>
+            <form id="form-articulo">
+                <input type="text" name="clave" placeholder="Clave del artículo" required><br /><br />
+                <input type="text" name="descripcion" placeholder="Descripción" required><br /><br />
+                <input type="number" name="precio" placeholder="Precio" step="0.01" required><br /><br />
+                <input type="text" name="imagen_url" placeholder="URL de imagen"><br /><br />
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar artículo -->
+    <div id="modalEditarArticulo" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalEditar()">&times;</span>
+            <h2>Editar Artículos</h2>
+            <form id="form-EditarArticulo">
+                <input type="text" name="clave"><br /><br />
+                <input type="text" name="descripcion"><br /><br />
+                <input type="number" name="precio"><br /><br />
+                <input type="text" name="imagen_url"><br /><br />
+                <button type="submit" id="btnGuardar">Guardar</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="script-articulos.js"></script>
+
+</html>

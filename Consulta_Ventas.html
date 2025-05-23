@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Punto de Venta - La Inventada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div id="navbar"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <!-- Toolbar de acciones -->
+    <div class="toolbar">
+        <button id="verDetalleVenta" disabled>Ver (F3)</button>
+        <button id="cancelarVenta">Cancelar venta</button>
+    </div>
+    <br />
+
+    <!-- Barra de búsqueda -->
+    <div class="search-bar" style="margin-bottom: 10px;">
+        <input type="text" id="search-input" placeholder="🔍 Buscar venta por ID, fecha o vendedor..." />
+    </div>
+
+
+    <!-- Tabla de ventas -->
+    <table id="tabla-ventas">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha y hora</th>
+                <th>Vendedor</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas de la tabla se llenarán dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Modal de Detalles de Venta -->
+    <div id="modalDetalleVenta" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Detalles de la Venta</h2>
+            <!-- Tabla de Artículos -->
+
+            <table id="tabla-detalles-articulos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Descripción del Artículo</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas de la tabla se llenarán dinámicamente con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</body>
+<script src="script-consulta-ventas.js"></script>
+
+</html>

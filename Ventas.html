@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Punto de Venta - La Inventada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+
+</head>
+<body>
+
+    <!-- Navbar principal -->
+    <div id="navbar"></div>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
+    </script>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button id="btnBuscar">Buscar (F2)</button>
+        <button id="btnCant">Cantidad (F3)</button>
+        <button id="btnRemover">Remover (F6)</button>
+        <button id="btnDesc">Desc. (F7)</button>
+        <button id="btnPagar">Pagar (F1)</button>
+        <button class="logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+
+    <!-- Main content -->
+    <div class="main">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <i class="fa fa-camera"></i>
+            <input id="inputClave" type="text" placeholder="🔍 Search" />
+            <select id="monedaSelect">
+                <option>MXN</option>
+                <option>USD</option>
+            </select>
+            <input id="inputCambio" type="number" value="1.00" step="0.01" readonly />
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Cant.</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Importe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los artículos se llenan con JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total -->
+        <div class="footer">
+            Total: $0.00 MXN
+        </div>
+    </div>
+
+    <!-- MODAL DE BÚSQUEDA -->
+    <div id="modalBusqueda" class="modal">
+        <div class="modal-content">
+            <span class="close" id="cerrarModal">&times;</span>
+            <h2>Buscar</h2>
+            <div class="search-bar">
+                <div class="search-bar">
+                    <input type="text" id="busqueda-articulo" placeholder="🔍 Buscar artículo...">
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-articulos">
+                    <!-- Los artículos se llenan con JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- MODAL TIPO DE CAMBIO -->
+    <div id="modalCambio" class="modal">
+        <div class="modal-content">
+            <span class="close" id="cerrarCambio">&times;</span>
+            <h2>Tipo de cambio</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Moneda</th>
+                        <th>Cambio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fa-solid fa-dollar-sign"></i></td>
+                        <td>USD</td>
+                        <td id="cambioUSD" contenteditable="true">18.50</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa-solid fa-peso-sign"></i></td>
+                        <td>MXN</td>
+                        <td id="cambioMXN" contenteditable="true">1.00</td>
+                    </tr>
+
+                </tbody>
+            </table><br>
+            <button>Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE PAGO -->
+    <div id="modalPago" class="modal">
+        <div class="modal-content">
+            <span class="close" id="cerrarPago">&times;</span>
+            <h2>Ticket</h2>
+            <h1 id="totalModal"></h1>
+            <p id="totalEnLetras"></p>
+            <div class="formas-pago">
+                <div class="pago-item">
+                    <i class="fa-solid fa-money-bill"></i>
+                    <p>Efectivo</p>
+                    <input id="efectivoInput" type="number" value="0.00" />
+                </div>
+                <div class="pago-item">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <p>Tarjeta</p>
+                    <input id="tarjetaInput" type="number" value="0.00" />
+                </div>
+                <div class="pago-item">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <p>Transferencia</p>
+                    <input id="transferenciaInput" type="number" value="0.00" />
+                </div>
+            </div>
+            <h3>Cambio</h3>
+            <h2 id="cambioMonto">$0.00</h2><br>
+            <button id="btnAceptarPago">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CAMBIO -->
+    <div id="modalCambioVenta" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('modalCambioVenta').style.display='none'">&times;</span>
+            <h2>Cambio</h2>
+            <p>Devuelve al cliente:</p>
+            <h1 id="cambioFinal">$0.00</h1>
+            <button onclick="document.getElementById('modalCambioVenta').style.display='none'">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE CANTIDAD -->
+    <div id="modalCantidad" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalCantidad()">&times;</span>
+            <h2>Modificar cantidad</h2>
+            <input type="number" id="nuevaCantidad" min="1" />
+            <button onclick="aplicarNuevaCantidad()">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE DESCUENTO -->
+    <div id="modalDescuento" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalDescuento()">&times;</span>
+            <h2>Descuento</h2>
+            <label><input type="radio" name="modoDesc" value="porcentaje" checked> Porcentaje</label>
+            <label><input type="radio" name="modoDesc" value="fijo"> Precio final</label>
+            <input type="number" id="valorDescuento" />
+            <button onclick="aplicarDescuento()">Aplicar</button>
+        </div>
+    </div>
+
+</body>
+<script src="script-ventas.js"></script>
+</html>
